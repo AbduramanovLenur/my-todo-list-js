@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head'); %> 
+</head>
+<body>
+
+    <div class="wrapper">
+        <section class="todo">
+            <div class="todo__inner">
+                <div class="todo__wrapper">
+                    <div class="todo__header">
+                        <h1 class="todo__title">
+                            My ToDo List
+                        </h1>
+                        <div class="todo__box">
+                            <p class="todo__day" data-js-todo-day>
+                                Monday
+                            </p>
+                            <time class="todo__time" data-js-todo-time>
+                                2:05:2
+                            </time>
+                        </div>
+                        <form class="todo__form">
+                            <input class="todo__input" type="text" required placeholder="..........." data-js-todo-input>
+                            <button class="todo__button" type="button" data-js-todo-button>
+                                Add
+                            </button>
+                        </form>
+                    </div>
+                    <div class="todo__body">
+                        <ul class="todo__list" data-js-todo-list></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
