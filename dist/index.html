@@ -9,8 +9,6 @@
 <title>ToDo List</title> 
 </head>
 <body>
-
-    <div class="wrapper">
         <section class="todo">
             <div class="todo__inner">
                 <div class="todo__wrapper">
@@ -18,17 +16,17 @@
                         <h1 class="todo__title">
                             My ToDo List
                         </h1>
-                        <div class="todo__box">
-                            <p class="todo__day" data-js-todo-day>
+                        <time class="todo__current-date">
+                            <div class="todo__day" data-js-todo-day>
                                 Monday
-                            </p>
-                            <time class="todo__time" data-js-todo-time>
-                                2:05:2
-                            </time>
-                        </div>
+                            </div>
+                            <div class="todo__time" data-js-todo-time>
+                                00:00:00
+                            </div>
+                        </time>
                         <form class="todo__form">
                             <input class="todo__input" type="text" required placeholder="..........." data-js-todo-input>
-                            <button class="todo__button" type="button" data-js-todo-button>
+                            <button class="todo__button" type="submit" data-js-todo-button>
                                 Add
                             </button>
                         </form>
@@ -39,7 +37,6 @@
                 </div>
             </div>
         </section>
-    </div>
 
     <script src="script.js"></script>
 </body>

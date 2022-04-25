@@ -7,7 +7,7 @@
         padding: 20px;
     }
     &__wrapper {
-        background-color: #fff;
+        background-color: var(--white);
         border-radius: 20px;
         padding: 30px;
         -webkit-box-shadow: 0px 0px 30px 10px rgba(34, 60, 80, 0.2);
@@ -22,7 +22,7 @@
         margin-bottom: 15px;
         text-align: center;
     }
-    &__box {
+    &__current-date {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -41,14 +41,14 @@
     }
     &__input {
         font-size: 17px;
-        border: 1px solid #00c3ff;
+        border: 1px solid var(--aqua);
         border-radius: 20px;
         height: 45px;
         width: 400px;
-        padding: 20px;
+        padding: 0 20px;
         &::placeholder {
             font-size: 20px;
-            color: #00c3ff;
+            color: var(--aqua);
         }
     }
     &__button {
@@ -58,8 +58,8 @@
         justify-content: center;
         width: 120px;
         height: 45px;
-        background-color: #00c3ff;
-        color: #fff;
+        background-color: var(--aqua);
+        color: var(--white);
         border-radius: 20px;
         transition: 0.5s;
     }
@@ -69,7 +69,7 @@
     }
     &__item {
         margin-bottom: 15px;
-        &.checked {
+        &.is-checked {
             opacity: 0.4;
             order: 2;
         }
@@ -79,38 +79,55 @@
             align-items: center;
             padding: 5px 20px;
             border-radius: 20px;
-            background-color: #00c3ff;
+            background-color: var(--aqua);
+            cursor: pointer;
+            transition: 0.5s;
         }
         &-text {
             font-family: 'Inconsolata', monospace;
             font-size: 25px;
             font-weight: 300;
-            color: #fff;
+            color: var(--white);
             max-width: 360px;
             margin-right: auto;
+            word-break: break-all;
+            cursor: pointer;
         }
         &-day {
             font-family: 'Inconsolata', monospace;
             font-size: 19px;
-            color: #fff;
+            color: var(--white);
             font-weight: 300;
             margin-left: 10px;
+            cursor: pointer;
         }
         &-time {
             font-family: 'Inconsolata', monospace;
             font-size: 19px;
-            color: #fff;
+            color: var(--white);
             font-weight: 300;
             margin-left: 20px;
+            cursor: pointer;
         }
     }
     &__checkbox {
         margin-right: 20px;
+        cursor: pointer !important;
     }
     &__delete {
-        color: #fff;
-        margin-left: 10px;
-        cursor: pointer;
+        &-button {
+            width: 36px;
+            height: 36px;
+            background-color: #cab3cd;
+            padding: 10px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+        &-ico {
+            color: var(--white);
+            transition: 0.5s;
+            cursor: pointer;
+        }
     }
 }
 
@@ -119,6 +136,20 @@
         &__button {
             &:hover {
                 background-color: #3aa3c4;
+            }
+        }
+        &__item {
+            &-box {
+                &:hover {
+                    background-color: #0090ff;
+                }
+            }
+        }
+        &__delete {
+            &-button {
+                &:hover .todo__delete-ico{
+                    color: #a4edff;
+                }
             }
         }
     }

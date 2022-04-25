@@ -1,91 +1,103 @@
 const todo = () => {
-    const todoInput = document.querySelector('[data-js-todo-input]');
-    const todoButton = document.querySelector('[data-js-todo-button]');
-    const todoList = document.querySelector('[data-js-todo-list]');
-    const todoDay = document.querySelector('[data-js-todo-day]');
-    const todoTime = document.querySelector('[data-js-todo-time]');
+    const inputElement = document.querySelector('[data-js-todo-input]');
+    const buttonElement = document.querySelector('[data-js-todo-button]');
+    const listElement = document.querySelector('[data-js-todo-list]');
+    const dayElement = document.querySelector('[data-js-todo-day]');
+    const timeElement = document.querySelector('[data-js-todo-time]');
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    let jsonRes = localStorage.getItem('todo');
+    const jsonResult = localStorage.getItem('todo');
     let todoItemElems = [];
     let todoArray = [];
 
-    if (jsonRes) {
-        todoArray = JSON.parse(jsonRes);
+    if (jsonResult) {
+        todoArray = JSON.parse(jsonResult);
         todoStructure();
     }
 
-    todoButton.addEventListener('click', (event) => {
-        let date = new Date();
-        let hour = (date.getHours() < 10) ? `0${date.getHours()}` : date.getHours();
-        let minutes = (date.getMinutes() < 10) ? `0${date.getMinutes()}` : date.getMinutes();
-        let day = date.getDay();
-        let time = `${hour}:${minutes}`;
-        let inputVal = todoInput.value;
-        let todoObj = {
-            todoValue: inputVal,
+    const add = (event) => {
+        event.preventDefault();
+
+        const date = new Date();
+        const getHour = date.getHours();
+        const getMinute = date.getMinutes();
+        const day = date.getDay();
+        const hour = `${getHour < 10 ? '0' : ''}${getHour}`;
+        const minute = `${getMinute < 10 ? '0' : ''}${getMinute}`;
+        const time = `${hour}:${minute}`;
+        const inputValue = inputElement.value.trim();
+        const todoInfo = {
+            todoValue: inputValue,
             todoTimes: time,
             todoDay: day,
-            completed: false
+            isCompleted: false
         }
 
-        if (!inputVal == '') {
-            todoArray.push(todoObj);
+        if (inputValue) {
+            todoArray.push(todoInfo);
             todoUpdateLocal();
             todoStructure();
-            todoInput.value = '';
+            inputElement.value = '';
         }
-    });
+    }
 
     function todoStructure() {
         let displayTodo = '';
+
         todoArray.forEach((element, index) => {
+            const {todoValue, todoTimes, todoDay, isCompleted} = element;
+
             displayTodo += `
-                <li class="todo__item ${element.completed ? 'checked' : ''}">
+                <li class="todo__item ${isCompleted ? 'is-checked' : ''}">
                     <div class="todo__item-box">
-                        <input class="todo__checkbox" data-index="${index}" type="checkbox" ${element.completed ? 'checked' : ''}>
-                        <p class="todo__item-text">
-                            ${element.todoValue}
-                        </p>
-                        <p class="todo__item-day">
-                            ${days[element.todoDay].substr(0, 3)}
-                        </p>
-                        <p class="todo__item-time">
-                            ${element.todoTimes}
-                        </p>
-                        <i class="todo__delete fa-solid fa-trash-can" data-index="${index}"></i>
+                        <input class="todo__checkbox" data-index="${index}" type="checkbox" ${isCompleted ? 'checked' : ''}>
+                        <div class="todo__item-text">${todoValue}</div>
+                        <div class="todo__item-day">${days[todoDay].substring(0, 3)}</div>
+                        <div class="todo__item-time">${todoTimes}</div>
+                        <button class="todo__delete-button" data-index="${index}" type="button">
+                            <i class="todo__delete-ico fa-solid fa-trash-can" data-index="${index}"></i>
+                        </button>
                     </div>
                 </li>
                 `;
         });
 
-        todoList.innerHTML = displayTodo;
-        todoItemElems = document.querySelectorAll('.todo__item');
+        listElement.innerHTML = displayTodo;
+        todoItemElems = [...document.querySelectorAll('.todo__item')];
     }
 
+    todoStructure();
+
     document.addEventListener('click', (event) => {
-        let target = event.target;
+        const {target} = event;
 
         if (target.closest('.todo__checkbox')) {
             let index = target.dataset.index;
             todoCompleted(index);
         }
 
-        if (target.closest('.todo__delete')) {
+        if (target.closest('.todo__delete-button' || '.todo__delete-ico')) {
             let index = target.dataset.index;
             todoDeleteElem(index);
         }
     })
 
     function todoCompleted(index) {
-        todoArray[index].completed = !todoArray[index].completed;
-        (todoArray[index].completed) ? todoItemElems[index].classList.add('checked') : todoItemElems[index].classList.remove('checked');
+        const arrayElement = todoArray[index];
+        const arrayItemElement = todoItemElems[index];
+
+        arrayElement.isCompleted = !arrayElement.isCompleted;
+
+        if (arrayElement.isCompleted) {
+            arrayItemElement.classList.add('is-checked');
+        } else {
+            arrayItemElement.classList.remove('is-checked');
+        }
+
         todoUpdateLocal();
     }
 
     function todoDeleteElem(index) {
-        console.log(index)
         todoArray.splice(index, 1);
-        console.log(todoArray);
         todoUpdateLocal();
         todoStructure();
     }
@@ -95,16 +107,29 @@ const todo = () => {
     }
 
     function todoTimeInner() {
-        let date = new Date();
-        let hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-        let minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-        let second = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+        const date = new Date();
 
-        todoTime.textContent = `${hour}:${minute}:${second}`;
-        todoDay.textContent = days[date.getDay()];
+        const getHour = date.getHours();
+        const getMinute = date.getMinutes();
+        const getSecond = date.getSeconds();
+        const getDay = date.getDay();
+
+        const hour = `${getHour < 10 ? '0' : ''}${getHour}`;
+        const minute = `${getMinute < 10 ? '0' : ''}${getMinute}`;
+        const second = `${getSecond < 10 ? '0' : ''}${getSecond}`;
+
+        timeElement.textContent = `${hour}:${minute}:${second}`;
+        dayElement.textContent = days[getDay];
     }
 
     setInterval(todoTimeInner, 1000);
+
+    buttonElement.addEventListener('click', add);
+    // document.addEventListener('keydown', (event) => {
+    //     if (event.code === 'Enter') {
+    //         add();
+    //     }
+    // });
 };
 
 export default todo;
